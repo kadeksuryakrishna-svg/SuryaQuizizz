@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IPA Ceria &bull; Bagikan Link Soal &amp; Tabel Admin</title>
+  <style>
+    :root {
+      --bg-sky: #eef6ff;
+      --bg-mint: #e8fbf5;
+      --bg-lilac: #f3efff;
+      --ink-dark: #162033;
+      --ink-muted: #5c6b82;
+      --brand-blue: #2563eb;
+      --brand-teal: #0d9488;
+      --ok: #16a34a;
+      --ok-bg: #dcfce7;
+      --bad: #e11d48;
+      --bad-bg: #ffe4e6;
+      --line: #dbe5f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', 'Nunito', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background:
+        radial-gradient(circle at 12% 14%, rgba(56, 189, 248, 0.28), transparent 40%),
+        radial-gradient(circle at 88% 18%, rgba(52, 211, 153, 0.25), transparent 42%),
+        radial-gradient(circle at 50% 92%, rgba(167, 139, 250, 0.24), transparent 46%),
+        linear-gradient(160deg, var(--bg-sky) 0%, var(--bg-mint) 52%, var(--bg-lilac) 100%);
+      color: var(--ink-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      overflow-x: hidden;
+    }
+
+    .app-box {
+      width: 100%;
+      max-width: 860px;
+      background: rgba(255, 255, 255, 0.96);
+      -webkit-backdrop-filter: blur(18px);
+      backdrop-filter: blur(18px);
+      border: 2px solid #ffffff;
+      border-radius: 28px;
+      box-shadow: 0 24px 60px rgba(30, 41, 59, 0.14);
+      overflow: hidden;
+    }
+
+    .top-nav {
+      padding: 15px 20px;
+      background: #ffffff;
+      border-bottom: 1.5px solid var(--line);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .brand-area {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, #2563eb, #0d9488);
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 0.96rem;
+      display: grid;
+      place-items: center;
+    }
+
+    .brand-title h1 {
+      font-size: 1.05rem;
+      font-weight: 800;
+    }
+
+    .brand-title small {
+      display: block;
+      font-size: 0.75rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+    }
+
+    .room-pill {
+      padding: 6px 12px;
+      border-radius: 999px;
+      font-size: 0.78rem;
+      font-weight: 900;
+      background: #dbeafe;
+      color: #1e40af;
+      border: 1.5px solid #93c5fd;
+    }
+
+    .viewport {
+      padding: 22px 20px;
+    }
+
+    .view-panel {
+      display: none;
+    }
+
+    .view-panel.active {
+      display: block;
+      animation: fadeIn 0.24s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .role-switch {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .role-btn {
+      padding: 14px;
+      border-radius: 16px;
+      border: 2px solid var(--line);
+      background: #f8fafc;
+      color: var(--ink-dark);
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .role-btn span {
+      display: block;
+      font-size: 0.76rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+      margin-top: 2px;
+    }
+
+    .role-btn.active {
+      border-color: var(--brand-blue);
+      background: #eff6ff;
+      color: #1d4ed8;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    @media (max-width: 680px) {
+      .role-switch, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    .field label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      padding: 11px 13px;
+      border-radius: 13px;
+      border: 2px solid var(--line);
+      background: #ffffff;
+      color: var(--ink-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+      outline: none;
+    }
+
+    .share-box {
+      background: #f8fafc;
+      border: 2px solid var(--line);
+      border-radius: 16px;
+      padding: 12px 14px;
+      margin-bottom: 16px;
+    }
+
+    .share-box label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: #1e293b;
+      margin-bottom: 6px;
+    }
+
+    .share-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .share-row input {
+      flex: 1;
+      min-width: 210px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      border: 2px solid var(--line);
+      background: #ffffff;
+      color: #334155;
+      font-size: 0.84rem;
+      font-weight: 700;
+    }
+
+    .copy-btn {
+      padding: 10px 14px;
+      border-radius: 12px;
+      border: 2px solid var(--brand-blue);
+      background: #eff6ff;
+      color: #1d4ed8;
+      font-size: 0.84rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .copy-feedback {
+      font-size: 0.76rem;
+      font-weight: 700;
+      color: var(--ok);
+      margin-top: 6px;
+      min-height: 16px;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .main-btn {
+      flex: 1;
+      min-width: 180px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #2563eb, #0d9488);
+      color: #ffffff;
+      font-size: 0.96rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .start-btn {
+      flex: 1;
+      min-width: 180px;
+      padding: 14px 18px;
+      border: none;
+      border-radius: 15px;
+      background: linear-gradient(135deg, #16a34a, #0d9488);
+      color: #ffffff;
+      font-size: 0.96rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .sec-btn {
+      padding: 11px 15px;
+      border-radius: 13px;
+      border: 2px solid var(--line);
+      background: #ffffff;
+      color: var(--ink-dark);
+      font-size: 0.86rem;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .wait-banner {
+      padding: 18px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 2px solid var(--line);
+      text-align: center;
+      font-weight: 800;
+      color: var(--ink-muted);
+    }
+
+    .q-box {
+      background: #ffffff;
+      border: 2px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+
+    .q-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 10px;
+      flex-wrap: wrap;
+      font-size: 0.8rem;
+      font-weight: 800;
+    }
+
+    .q-prompt {
+      font-size: 1.1rem;
+      font-weight: 800;
+      line-height: 1.5;
+    }
+
+    .choices-list {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .choice-btn {
+      width: 100%;
+      padding: 13px 15px;
+      border-radius: 15px;
+      border: 2px solid var(--line);
+      background: #ffffff;
+      color: var(--ink-dark);
+      font-size: 0.92rem;
+      font-weight: 700;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .choice-btn.ok {
+      border-color: var(--ok);
+      background: var(--ok-bg);
+      color: #14532d;
+    }
+
+    .choice-btn.bad {
+      border-color: var(--bad);
+      background: var(--bad-bg);
+      color: #881337;
+    }
+
+    .explain-box {
+      display: none;
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      margin-bottom: 14px;
+      background: #eff6ff;
+      border: 1.5px solid #bfdbfe;
+      color: #1e3a8a;
+    }
+
+    .explain-box.show {
+      display: block;
+    }
+
+    /* TAMPILAN ADMIN: HANYA TABEL SAJA */
+    .admin-table-only-wrap {
+      overflow-x: auto;
+      border: 2px solid var(--line);
+      border-radius: 18px;
+      background: #ffffff;
+    }
+
+    table.admin-only-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+    }
+
+    table.admin-only-table th,
+    table.admin-only-table td {
+      padding: 11px 13px;
+      text-align: left;
+      border-bottom: 1px solid var(--line);
+    }
+
+    table.admin-only-table th {
+      background: #f8fafc;
+      font-weight: 800;
+      color: #334155;
+    }
+
+    table.admin-only-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .badge-ok {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--ok-bg);
+      color: #14532d;
+      font-weight: 800;
+      font-size: 0.76rem;
+    }
+
+    .badge-bad {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: var(--bad-bg);
+      color: #881337;
+      font-weight: 800;
+      font-size: 0.76rem;
+    }
+
+    .badge-wait {
+      display: inline-block;
+      padding: 3px 9px;
+      border-radius: 999px;
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 700;
+      font-size: 0.76rem;
+    }
+
+    .journey-card {
+      background: linear-gradient(150deg, #eff6ff, #f0fdfa);
+      border: 2px solid #93c5fd;
+      border-radius: 22px;
+      padding: 18px;
+      text-align: center;
+    }
+
+    .journey-track {
+      height: 10px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+      margin: 10px 0 14px;
+    }
+
+    .journey-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #2563eb, #0d9488, #f59e0b);
+      transition: width 0.25s linear;
+    }
+
+    .arena-field {
+      position: relative;
+      height: 210px;
+      border-radius: 18px;
+      background: #ffffff;
+      border: 2px solid #cbd5e1;
+      overflow: hidden;
+      margin-bottom: 12px;
+    }
+
+    .bubble-btn {
+      position: absolute;
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 2.5px solid #ffffff;
+      background: linear-gradient(135deg, #2563eb, #0d9488);
+      color: #ffffff;
+      font-weight: 900;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transform: translate(-50%, -50%);
+      box-shadow: 0 8px 16px rgba(37, 99, 235, 0.25);
+    }
+
+    .helper-note {
+      font-size: 0.78rem;
+      color: var(--ink-muted);
+      font-weight: 600;
+      margin-top: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-box">
+    <div class="top-nav">
+      <div class="brand-area">
+        <div class="brand-badge">IPA</div>
+        <div class="brand-title">
+          <h1>IPA Ceria</h1>
+          <small>Bagikan Link Soal &bull; Admin Start &amp; Tabel Saja</small>
+        </div>
+      </div>
+
+      <span class="room-pill" id="roomBadge">Room: -</span>
+    </div>
+
+    <div class="viewport">
+      <!-- PANEL 1: PILIH PERAN, BAGIKAN LINK SOAL & START ADMIN -->
+      <div class="view-panel active" id="homePanel">
+        <div class="role-switch">
+          <button type="button" class="role-btn active" id="roleAdminBtn">
+            &#128202; Admin (Pencet Start &amp; Tabel Saja)
+            <span>Atur room, bagikan link soal, tekan Start, lalu layar admin hanya tabel</span>
+          </button>
+          <button type="button" class="role-btn" id="roleStudentBtn">
+            &#127891; Siswa (Kerjakan Soal)
+            <span>Masuk lewat link atau kode room, tunggu Start, lalu kerjakan soal</span>
+          </button>
+        </div>
+
+        <div id="adminSetupForm">
+          <div class="grid-3">
+            <div class="field">
+              <label for="adminRoomInput">Kode Room</label>
+              <input type="text" id="adminRoomInput" value="IPA7B" maxlength="12" />
+            </div>
+            <div class="field">
+              <label for="adminGradeSelect">Jenjang Kelas</label>
+              <select id="adminGradeSelect">
+                <option value="1">Kelas 1 SD</option>
+                <option value="2">Kelas 2 SD</option>
+                <option value="3">Kelas 3 SD</option>
+                <option value="4">Kelas 4 SD</option>
+                <option value="5">Kelas 5 SD</option>
+                <option value="6">Kelas 6 SD</option>
+                <option value="7" selected>Kelas 7 SMP</option>
+                <option value="8">Kelas 8 SMP</option>
+                <option value="9">Kelas 9 SMP</option>
+                <option value="10">Kelas 10 SMA</option>
+                <option value="11">Kelas 11 SMA</option>
+                <option value="12">Kelas 12 SMA</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="adminCountInput">Jumlah Soal</label>
+              <input type="number" id="adminCountInput" min="1" max="10000" value="10" />
+            </div>
+          </div>
+
+          <div class="share-box">
+            <label for="shareQuestionLinkInput">Bagikan Link Soal ke Siswa</label>
+            <div class="share-row">
+              <input type="text" id="shareQuestionLinkInput" readonly />
+              <button type="button" class="copy-btn" id="copyQuestionLinkBtn">Salin Link Soal</button>
+            </div>
+            <div class="copy-feedback" id="copyFeedback"></div>
+          </div>
+
+          <div class="btn-row">
+            <button type="button" class="main-btn" id="openAdminTableOnlyBtn">Buka Tabel Saja</button>
+            <button type="button" class="start-btn" id="adminStartRoomBtn">&#9654;&#65039; Start (Mulai Soal)</button>
+          </div>
+        </div>
+
+        <div id="studentJoinForm" style="display:none;">
+          <div class="grid-3">
+            <div class="field">
+              <label for="studentNameField">Nama Siswa</label>
+              <input type="text" id="studentNameField" placeholder="Contoh: Putu Ayu" />
+            </div>
+            <div class="field">
+              <label for="studentClassField">Kelas / Rombel</label>
+              <input type="text" id="studentClassField" placeholder="Contoh: 7B" />
+            </div>
+            <div class="field">
+              <label for="studentRoomField">Kode Room</label>
+              <input type="text" id="studentRoomField" value="IPA7B" maxlength="12" />
+            </div>
+          </div>
+          <button type="button" class="main-btn" id="joinStudentRoomBtn">Masuk ke Room</button>
+        </div>
+
+        <p class="helper-note">
+          Link soal otomatis membawa pengaturan room, jenjang kelas, dan jumlah soal. Mini-game maksimal 5 per 10 soal.
+        </p>
+      </div>
+
+      <!-- PANEL 2: TAMPILAN ADMIN (HANYA TABEL SAJA) -->
+      <div class="view-panel" id="adminTablePanel">
+        <div class="admin-table-only-wrap">
+          <table class="admin-only-table">
+            <thead>
+              <tr>
+                <th>No</th>
+                <th>Nama Siswa</th>
+                <th>Kelas</th>
+                <th>Soal Ke</th>
+                <th>Status</th>
+                <th>Benar</th>
+                <th>Salah</th>
+                <th>Skor</th>
+              </tr>
+            </thead>
+            <tbody id="adminPureTableBody">
+              <tr>
+                <td colspan="8" style="text-align:center;color:var(--ink-muted);">Belum ada data siswa.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- PANEL 3: TUNGGU START ADMIN (KHUSUS SISWA) -->
+      <div class="view-panel" id="studentWaitPanel">
+        <div class="wait-banner" style="margin-bottom:12px;">
+          Menunggu Admin menekan tombol <strong>Start</strong> untuk memulai soal...
+        </div>
+        <button type="button" class="start-btn" id="studentProceedWhenStartedBtn" style="width:100%;">&#9654;&#65039; Mulai Kerjakan Soal</button>
+      </div>
+
+      <!-- PANEL 4: SOAL SISWA -->
+      <div class="view-panel" id="quizPanel">
+        <div class="q-box">
+          <div class="q-meta">
+            <span id="qStepLabel">Soal 1 / 10</span>
+            <span id="qGradeTopic">Kelas 7 SMP</span>
+            <span id="myScoreLabel">Skor: 0</span>
+          </div>
+          <div class="q-prompt" id="qPrompt"></div>
+        </div>
+
+        <div class="choices-list" id="choicesList"></div>
+        <div class="explain-box" id="explainBox"></div>
+        <button type="button" class="sec-btn" id="studentNextStepBtn">Lanjut &rarr;</button>
+      </div>
+
+      <!-- PANEL 5: MINI-GAME PERJALANAN SISWA -->
+      <div class="view-panel" id="journeyPanel">
+        <div class="journey-card">
+          <div class="q-meta">
+            <span id="mgQuotaBadge">Mini-Game 1 / 5</span>
+            <span id="mgPointsBadge">Skor: 0</span>
+            <span id="mgTimerBadge">5s</span>
+          </div>
+          <h3 id="mgJourneyTitle">Sedang berjalan menuju Soal #2...</h3>
+          <div class="journey-track">
+            <div class="journey-fill" id="journeyFill"></div>
+          </div>
+          <div class="arena-field" id="arenaField"></div>
+          <button type="button" class="sec-btn" id="skipJourneyBtn">Lewati</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    /** @typedef {{ topic: string, question: string, options: string[], answer: number, explanation: string }} QuestionItem */
+    /** @typedef {{ id: string, name: string, kelas: string, currentQuestionNum: number, score: number, correctCount: number, wrongCount: number, lastStatus: "benar" | "salah" | "menunggu" }} StudentRow */
+
+    document.addEventListener("DOMContentLoaded", function () {
+      /** @type {Record<number, QuestionItem[]>} */
+      var QUESTION_BANK = {
+        1: [
+          { topic: "Panca Indera", question: "Bagian tubuh yang digunakan untuk melihat adalah...", options: ["Telinga", "Mata", "Hidung", "Lidah"], answer: 1, explanation: "Mata adalah indera penglihatan." },
+          { topic: "Makhluk Hidup", question: "Contoh makhluk hidup di sekitar rumah adalah...", options: ["Batu", "Bola", "Tanaman bunga", "Sendok"], answer: 2, explanation: "Tanaman tumbuh dan membutuhkan air." }
+        ],
+        2: [
+          { topic: "Tumbuhan & Hewan", question: "Bagian tumbuhan di dalam tanah yang menyerap air adalah...", options: ["Daun", "Akar", "Bunga", "Buah"], answer: 1, explanation: "Akar menyerap air dan zat hara." },
+          { topic: "Wujud Benda", question: "Air di dalam gelas akan berbentuk seperti...", options: ["Gelas", "Batu", "Awan", "Kertas"], answer: 0, explanation: "Zat cair mengikuti bentuk wadahnya." }
+        ],
+        3: [
+          { topic: "Pertumbuhan", question: "Urutan pertumbuhan manusia dari kecil adalah...", options: ["Dewasa - Anak - Bayi", "Bayi - Anak - Remaja - Dewasa", "Remaja - Bayi - Dewasa", "Anak - Bayi - Dewasa"], answer: 1, explanation: "Pertumbuhan dimulai dari bayi menuju dewasa." },
+          { topic: "Gaya & Gerak", question: "Menendang bola memberikan gaya berupa...", options: ["Dorongan", "Tarikan", "Magnet", "Pendinginan"], answer: 0, explanation: "Menendang adalah dorongan." }
+        ],
+        4: [
+          { topic: "Fotosintesis", question: "Zat hijau daun yang membantu fotosintesis disebut...", options: ["Klorofil", "Xilem", "Floem", "Stomata"], answer: 0, explanation: "Klorofil menyerap energi cahaya matahari." },
+          { topic: "Energi", question: "Kipas angin mengubah energi listrik menjadi energi...", options: ["Gerak", "Kimia", "Nuklir", "Potensial"], answer: 0, explanation: "Motor listrik menggerakkan baling-baling." }
+        ],
+        5: [
+          { topic: "Pernapasan", question: "Pertukaran oksigen dan karbon dioksida di paru-paru terjadi di...", options: ["Alveolus", "Lambung", "Ginjal", "Trakea"], answer: 0, explanation: "Alveolus memiliki kapiler darah halus." },
+          { topic: "Rantai Makanan", question: "Pada rantai makanan padi -> tikus -> ular, padi berperan sebagai...", options: ["Produsen", "Konsumen II", "Pengurai", "Dekomposer"], answer: 0, explanation: "Tumbuhan hijau adalah produsen." }
+        ],
+        6: [
+          { topic: "Listrik", question: "Pada rangkaian paralel, jika satu lampu mati maka lampu lain...", options: ["Tetap menyala", "Ikut mati", "Meledak", "Menjadi baterai"], answer: 0, explanation: "Rangkaian paralel memiliki cabang arus terpisah." },
+          { topic: "Tata Surya", question: "Planet yang terkenal memiliki cincin es mencolok adalah...", options: ["Saturnus", "Merkurius", "Mars", "Venus"], answer: 0, explanation: "Saturnus dikelilingi sistem cincin." }
+        ],
+        7: [
+          { topic: "Hakikat Sains", question: "Cabang IPA yang mempelajari materi, energi, gaya, dan gerak adalah...", options: ["Biologi", "Fisika", "Ekologi", "Botani"], answer: 1, explanation: "Fisika mengkaji materi, energi, gaya, dan gerak." },
+          { topic: "Massa Jenis", question: "Benda bermassa 200 g dan volume 100 cm&sup3; memiliki massa jenis...", options: ["2 g/cm&sup3;", "0,5 g/cm&sup3;", "300 g/cm&sup3;", "100 g/cm&sup3;"], answer: 0, explanation: "&rho; = m / V = 200 / 100 = 2 g/cm&sup3;." }
+        ],
+        8: [
+          { topic: "Tumbuhan", question: "Jaringan yang mengangkut hasil fotosintesis ke seluruh tumbuhan adalah...", options: ["Floem", "Xilem", "Epidermis", "Korteks"], answer: 0, explanation: "Floem mengedarkan makanan hasil fotosintesis." },
+          { topic: "Tekanan", question: "Gaya 100 N pada luas bidang 0,5 m&sup2; menghasilkan tekanan...", options: ["200 Pa", "50 Pa", "100,5 Pa", "20 Pa"], answer: 0, explanation: "P = F / A = 100 / 0,5 = 200 Pa." }
+        ],
+        9: [
+          { topic: "Pembelahan Sel", question: "Pembelahan sel yang menghasilkan 4 sel anak haploid adalah...", options: ["Meiosis", "Mitosis", "Amitosis", "Tunas"], answer: 0, explanation: "Meiosis menghasilkan sel gamet haploid (n)." },
+          { topic: "Listrik Dinamis", question: "Hambatan 5 &Omega; dialiri arus 3 A. Tegangan pada hambatan tersebut...", options: ["15 V", "8 V", "1,67 V", "2 V"], answer: 0, explanation: "V = I &times; R = 3 &times; 5 = 15 Volt." }
+        ],
+        10: [
+          { topic: "Metode Ilmiah", question: "Variabel yang sengaja diubah peneliti dalam percobaan disebut...", options: ["Variabel bebas", "Variabel terikat", "Variabel kontrol", "Hipotesis"], answer: 0, explanation: "Variabel bebas adalah faktor yang dimanipulasi." },
+          { topic: "Struktur Atom", question: "Atom netral bernomor atom 11 dan nomor massa 23 memiliki neutron sebanyak...", options: ["12", "23", "11", "34"], answer: 0, explanation: "Neutron = 23 - 11 = 12." }
+        ],
+        11: [
+          { topic: "Sel", question: "Organel penghasil energi ATP pada respirasi seluler adalah...", options: ["Mitokondria", "Lisosom", "Ribosom", "Vakuola"], answer: 0, explanation: "Mitokondria menghasilkan ATP." },
+          { topic: "Termodinamika", question: "Proses dengan suhu sistem selalu tetap disebut...", options: ["Isotermal", "Isobarik", "Isokhorik", "Adiabatik"], answer: 0, explanation: "Isotermal berarti suhu (&Delta;T) = 0." }
+        ],
+        12: [
+          { topic: "Metabolisme", question: "Tahap respirasi di sitoplasma yang mengubah glukosa menjadi piruvat adalah...", options: ["Glikolisis", "Siklus Krebs", "Transpor elektron", "Dekarboksilasi"], answer: 0, explanation: "Glikolisis terjadi di sitoplasma." },
+          { topic: "Fisika Modern", question: "Energi foton cahaya berfrekuensi f dengan tetapan Planck h adalah...", options: ["E = h &middot; f", "E = m &middot; c", "E = V &middot; I", "E = F &middot; s"], answer: 0, explanation: "Rumus energi foton Planck: E = h &middot; f." }
+        ]
+      };
+
+      var role = "admin";
+      var roomCode = "IPA7B";
+      var grade = 7;
+      var questionCount = 10;
+      var startedByAdmin = false;
+      var stepIndex = 0;
+      var mgUsed = 0;
+      var mgMax = 5;
+
+      var myId = "s_" + Math.random().toString(36).slice(2, 8);
+      var myName = "";
+      var myClass = "";
+      var myScore = 0;
+      var myCorrect = 0;
+      var myWrong = 0;
+      var myLastStatus = "menunggu";
+      var answeredNow = false;
+      /** @type {QuestionItem[]} */
+      var deck = [];
+      /** @type {Record<string, StudentRow>} */
+      var studentsMap = {};
+
+      var roomBadge = /** @type {HTMLElement} */ (document.getElementById("roomBadge"));
+      var adminRoomInput = /** @type {HTMLInputElement} */ (document.getElementById("adminRoomInput"));
+      var adminGradeSelect = /** @type {HTMLSelectElement} */ (document.getElementById("adminGradeSelect"));
+      var adminCountInput = /** @type {HTMLInputElement} */ (document.getElementById("adminCountInput"));
+      var shareLinkInput = /** @type {HTMLInputElement} */ (document.getElementById("shareQuestionLinkInput"));
+      var copyFeedback = /** @type {HTMLElement} */ (document.getElementById("copyFeedback"));
+      var studentRoomField = /** @type {HTMLInputElement} */ (document.getElementById("studentRoomField"));
+
+      var panels = {
+        home: /** @type {HTMLElement} */ (document.getElementById("homePanel")),
+        adminTable: /** @type {HTMLElement} */ (document.getElementById("adminTablePanel")),
+        studentWait: /** @type {HTMLElement} */ (document.getElementById("studentWaitPanel")),
+        quiz: /** @type {HTMLElement} */ (document.getElementById("quizPanel")),
+        journey: /** @type {HTMLElement} */ (document.getElementById("journeyPanel"))
+      };
+
+      /** @type {function("home" | "adminTable" | "studentWait" | "quiz" | "journey"): void} */
+      var showPanel = function (name) {
+        Object.keys(panels).forEach(function (k) {
+          panels[k].classList.remove("active");
+        });
+        panels[name].classList.add("active");
+      };
+
+      /** @type {function(number, number): QuestionItem[]} */
+      var buildDeck = function (g, total) {
+        var base = QUESTION_BANK[g] || QUESTION_BANK[7];
+        /** @type {QuestionItem[]} */
+        var list = [];
+        for (var i = 0; i < total; i++) {
+          var item = base[i % base.length];
+          var round = Math.floor(i / base.length) + 1;
+          list.push({
+            topic: item.topic,
+            question: round > 1 ? item.question + " (#" + (i + 1) + ")" : item.question,
+            options: item.options.slice(),
+            answer: item.answer,
+            explanation: item.explanation
+          });
+        }
+        return list;
+      };
+
+      /** @type {function(): string} */
+      var buildShareableStudentLink = function () {
+        var rm = (adminRoomInput.value || "IPA7B").trim().toUpperCase();
+        var gr = parseInt(adminGradeSelect.value, 10) || 7;
+        var cnt = Math.min(10000, Math.max(1, parseInt(adminCountInput.value, 10) || 10));
+        var baseUrl = window.location.href.split("?")[0];
+        if (!baseUrl || baseUrl === "null") {
+          return "?role=student&room=" + encodeURIComponent(rm) + "&grade=" + gr + "&count=" + cnt;
+        }
+        return baseUrl + "?role=student&room=" + encodeURIComponent(rm) + "&grade=" + gr + "&count=" + cnt;
+      };
+
+      /** @type {function(): void} */
+      var updateShareLinkBox = function () {
+        shareLinkInput.value = buildShareableStudentLink();
+        studentRoomField.value = (adminRoomInput.value || "IPA7B").trim().toUpperCase();
+        copyFeedback.textContent = "";
+      };
+
+      /** @type {function(): void} */
+      var renderAdminPureTable = function () {
+        var tbody = /** @type {HTMLElement} */ (document.getElementById("adminPureTableBody"));
+        var rows = Object.keys(studentsMap).map(function (id) {
+          return studentsMap[id];
+        });
+
+        if (!rows.length) {
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;color:var(--ink-muted);">Belum ada data siswa di room ' + roomCode + ".</td></tr>";
+          return;
+        }
+
+        tbody.innerHTML = rows.map(function (st, idx) {
+          var badge = '<span class="badge-wait">Menunggu</span>';
+          if (st.lastStatus === "benar") badge = '<span class="badge-ok">Benar</span>';
+          else if (st.lastStatus === "salah") badge = '<span class="badge-bad">Salah</span>';
+
+          return (
+            "<tr>" +
+            "<td>" + (idx + 1) + "</td>" +
+            "<td><strong>" + st.name + "</strong></td>" +
+            "<td>" + (st.kelas || "-") + "</td>" +
+            "<td>#" + st.currentQuestionNum + "</td>" +
+            "<td>" + badge + "</td>" +
+            '<td style="color:var(--ok);font-weight:800;">' + st.correctCount + "</td>" +
+            '<td style="color:var(--bad);font-weight:800;">' + st.wrongCount + "</td>" +
+            "<td><strong>" + st.score + "</strong></td>" +
+            "</tr>"
+          );
+        }).join("");
+      };
+
+      /** @type {function(): void} */
+      var syncStudentRow = function () {
+        if (role !== "student") return;
+        studentsMap[myId] = {
+          id: myId,
+          name: myName,
+          kelas: myClass,
+          currentQuestionNum: stepIndex + 1,
+          score: myScore,
+          correctCount: myCorrect,
+          wrongCount: myWrong,
+          lastStatus: myLastStatus
+        };
+        renderAdminPureTable();
+      };
+
+      /** @type {function(): void} */
+      var renderStudentQuestion = function () {
+        answeredNow = false;
+        myLastStatus = "menunggu";
+        syncStudentRow();
+
+        var item = deck[stepIndex] || deck[0];
+        /** @type {HTMLElement} */ (document.getElementById("qStepLabel")).textContent = "Soal " + (stepIndex + 1) + " / " + deck.length;
+        /** @type {HTMLElement} */ (document.getElementById("qGradeTopic")).textContent = "Kelas " + grade + " \u2022 " + item.topic;
+        /** @type {HTMLElement} */ (document.getElementById("myScoreLabel")).textContent = "Skor: " + myScore;
+        /** @type {HTMLElement} */ (document.getElementById("qPrompt")).innerHTML = item.question;
+
+        var expBox = /** @type {HTMLElement} */ (document.getElementById("explainBox"));
+        expBox.classList.remove("show");
+        expBox.innerHTML = "";
+
+        var choicesEl = /** @type {HTMLElement} */ (document.getElementById("choicesList"));
+        choicesEl.innerHTML = "";
+
+        item.options.forEach(function (opt, idx) {
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "choice-btn";
+          btn.innerHTML = "<strong>" + ["A", "B", "C", "D"][idx] + ".</strong> <span>" + opt + "</span>";
+          btn.addEventListener("click", function () {
+            if (answeredNow) return;
+            answeredNow = true;
+            var right = idx === item.answer;
+
+            choicesEl.querySelectorAll(".choice-btn").forEach(function (b, bIdx) {
+              var el = /** @type {HTMLButtonElement} */ (b);
+              el.disabled = true;
+              if (bIdx === item.answer) el.classList.add("ok");
+              else if (bIdx === idx) el.classList.add("bad");
+            });
+
+            if (right) {
+              myCorrect++;
+              myScore += 100;
+              myLastStatus = "benar";
+            } else {
+              myWrong++;
+              myLastStatus = "salah";
+            }
+
+            /** @type {HTMLElement} */ (document.getElementById("myScoreLabel")).textContent = "Skor: " + myScore;
+            expBox.innerHTML = (right ? "<strong>Benar!</strong> " : "<strong>Salah.</strong> ") + item.explanation;
+            expBox.classList.add("show");
+            syncStudentRow();
+          });
+          choicesEl.appendChild(btn);
+        });
+      };
+
+      /** @type {number | null} */
+      var timerId = null;
+      /** @type {number | null} */
+      var spawnId = null;
+
+      /** @type {function(): void} */
+      var clearMiniTimers = function () {
+        if (timerId !== null) {
+          clearInterval(timerId);
+          timerId = null;
+        }
+        if (spawnId !== null) {
+          clearInterval(spawnId);
+          spawnId = null;
+        }
+        /** @type {HTMLElement} */ (document.getElementById("arenaField")).innerHTML = "";
+      };
+
+      /** @type {function(): void} */
+      var spawnTarget = function () {
+        var arena = /** @type {HTMLElement} */ (document.getElementById("arenaField"));
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "bubble-btn";
+        b.textContent = "+20";
+        b.style.left = (44 + Math.random() * Math.max(80, arena.clientWidth - 88)) + "px";
+        b.style.top = (38 + Math.random() * Math.max(70, arena.clientHeight - 76)) + "px";
+        b.addEventListener("click", function () {
+          myScore += 20;
+          /** @type {HTMLElement} */ (document.getElementById("mgPointsBadge")).textContent = "Skor: " + myScore;
+          if (b.parentNode) b.parentNode.removeChild(b);
+          syncStudentRow();
+        });
+        arena.appendChild(b);
+        window.setTimeout(function () {
+          if (b.parentNode) b.parentNode.removeChild(b);
+        }, 1250);
+      };
+
+      /** @type {function(): void} */
+      var runStudentMiniGame = function () {
+        clearMiniTimers();
+        var sec = 5;
+        showPanel("journey");
+        /** @type {HTMLElement} */ (document.getElementById("mgQuotaBadge")).textContent = "Mini-Game " + mgUsed + " / " + mgMax;
+        /** @type {HTMLElement} */ (document.getElementById("mgPointsBadge")).textContent = "Skor: " + myScore;
+        /** @type {HTMLElement} */ (document.getElementById("mgTimerBadge")).textContent = "5s";
+        /** @type {HTMLElement} */ (document.getElementById("mgJourneyTitle")).textContent =
+          "Sedang berjalan menuju Soal #" + (stepIndex + 1) + "...";
+        /** @type {HTMLElement} */ (document.getElementById("journeyFill")).style.width = "0%";
+
+        spawnTarget();
+        spawnId = window.setInterval(spawnTarget, 550);
+
+        timerId = window.setInterval(function () {
+          sec--;
+          /** @type {HTMLElement} */ (document.getElementById("journeyFill")).style.width = (((5 - Math.max(0, sec)) / 5) * 100) + "%";
+          /** @type {HTMLElement} */ (document.getElementById("mgTimerBadge")).textContent = Math.max(0, sec) + "s";
+          if (sec <= 0) {
+            clearMiniTimers();
+            renderStudentQuestion();
+            showPanel("quiz");
+          }
+        }, 1000);
+      };
+
+      var roleAdminBtn = /** @type {HTMLButtonElement} */ (document.getElementById("roleAdminBtn"));
+      var roleStudentBtn = /** @type {HTMLButtonElement} */ (document.getElementById("roleStudentBtn"));
+
+      /** @type {function("admin" | "student"): void} */
+      var setActiveRoleUI = function (targetRole) {
+        role = targetRole;
+        if (targetRole === "admin") {
+          roleAdminBtn.classList.add("active");
+          roleStudentBtn.classList.remove("active");
+          /** @type {HTMLElement} */ (document.getElementById("adminSetupForm")).style.display = "block";
+          /** @type {HTMLElement} */ (document.getElementById("studentJoinForm")).style.display = "none";
+          updateShareLinkBox();
+        } else {
+          roleStudentBtn.classList.add("active");
+          roleAdminBtn.classList.remove("active");
+          /** @type {HTMLElement} */ (document.getElementById("adminSetupForm")).style.display = "none";
+          /** @type {HTMLElement} */ (document.getElementById("studentJoinForm")).style.display = "block";
+        }
+      };
+
+      roleAdminBtn.addEventListener("click", function () {
+        setActiveRoleUI("admin");
+      });
+
+      roleStudentBtn.addEventListener("click", function () {
+        setActiveRoleUI("student");
+      });
+
+      adminRoomInput.addEventListener("input", updateShareLinkBox);
+      adminGradeSelect.addEventListener("change", updateShareLinkBox);
+      adminCountInput.addEventListener("input", updateShareLinkBox);
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("copyQuestionLinkBtn")).addEventListener("click", function () {
+        var linkText = buildShareableStudentLink();
+        shareLinkInput.value = linkText;
+
+        if (navigator.clipboard && typeof navigator.clipboard.writeText === "function") {
+          navigator.clipboard.writeText(linkText).then(function () {
+            copyFeedback.textContent = "Link soal berhasil disalin!";
+          }).catch(function () {
+            shareLinkInput.focus();
+            shareLinkInput.select();
+            copyFeedback.textContent = "Link sudah dipilih, silakan salin manual.";
+          });
+        } else {
+          shareLinkInput.focus();
+          shareLinkInput.select();
+          copyFeedback.textContent = "Link sudah dipilih, silakan salin manual.";
+        }
+      });
+
+      var readAdminInputs = function () {
+        roomCode = (adminRoomInput.value || "IPA7B").trim().toUpperCase();
+        grade = parseInt(adminGradeSelect.value, 10) || 7;
+        questionCount = Math.min(10000, Math.max(1, parseInt(adminCountInput.value, 10) || 10));
+        mgMax = Math.floor(questionCount / 2);
+        deck = buildDeck(grade, questionCount);
+        roomBadge.textContent = "Room: " + roomCode;
+        updateShareLinkBox();
+      };
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("openAdminTableOnlyBtn")).addEventListener("click", function () {
+        role = "admin";
+        readAdminInputs();
+        renderAdminPureTable();
+        showPanel("adminTable");
+      });
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("adminStartRoomBtn")).addEventListener("click", function () {
+        role = "admin";
+        readAdminInputs();
+        startedByAdmin = true;
+        renderAdminPureTable();
+        showPanel("adminTable");
+      });
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("joinStudentRoomBtn")).addEventListener("click", function () {
+        role = "student";
+        var nm = (/** @type {HTMLInputElement} */ (document.getElementById("studentNameField")).value || "").trim();
+        if (!nm) {
+          alert("Isi nama siswa terlebih dahulu.");
+          return;
+        }
+        myName = nm;
+        myClass = (/** @type {HTMLInputElement} */ (document.getElementById("studentClassField")).value || "").trim();
+        myScore = 0;
+        myCorrect = 0;
+        myWrong = 0;
+        stepIndex = 0;
+        mgUsed = 0;
+        mgMax = Math.floor(questionCount / 2);
+        deck = buildDeck(grade, questionCount);
+
+        roomCode = (studentRoomField.value || "IPA7B").trim().toUpperCase();
+        roomBadge.textContent = "Room: " + roomCode;
+        syncStudentRow();
+
+        if (startedByAdmin) {
+          renderStudentQuestion();
+          showPanel("quiz");
+        } else {
+          showPanel("studentWait");
+        }
+      });
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("studentProceedWhenStartedBtn")).addEventListener("click", function () {
+        if (!startedByAdmin) {
+          alert("Admin belum menekan tombol Start.");
+          return;
+        }
+        renderStudentQuestion();
+        showPanel("quiz");
+      });
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("studentNextStepBtn")).addEventListener("click", function () {
+        if (stepIndex + 1 >= deck.length) {
+          alert("Kuis selesai! Skor akhir kamu: " + myScore);
+          return;
+        }
+        stepIndex++;
+        if (mgUsed < mgMax) {
+          mgUsed++;
+          runStudentMiniGame();
+        } else {
+          renderStudentQuestion();
+        }
+      });
+
+      /** @type {HTMLButtonElement} */ (document.getElementById("skipJourneyBtn")).addEventListener("click", function () {
+        clearMiniTimers();
+        renderStudentQuestion();
+        showPanel("quiz");
+      });
+
+      try {
+        var params = new URLSearchParams(window.location.search);
+        var pRoom = params.get("room");
+        var pGrade = parseInt(params.get("grade") || "", 10);
+        var pCount = parseInt(params.get("count") || "", 10);
+        var pRole = params.get("role");
+
+        if (pRoom) {
+          roomCode = pRoom.trim().toUpperCase();
+          adminRoomInput.value = roomCode;
+          studentRoomField.value = roomCode;
+          roomBadge.textContent = "Room: " + roomCode;
+        }
+        if (pGrade >= 1 && pGrade <= 12) {
+          grade = pGrade;
+          adminGradeSelect.value = String(pGrade);
+        }
+        if (pCount >= 1 && pCount <= 10000) {
+          questionCount = pCount;
+          adminCountInput.value = String(pCount);
+        }
+        mgMax = Math.floor(questionCount / 2);
+        deck = buildDeck(grade, questionCount);
+
+        if (pRole === "student") {
+          setActiveRoleUI("student");
+        } else {
+          updateShareLinkBox();
+        }
+      } catch (e) {
+        updateShareLinkBox();
+      }
+    });
+  </script>
+</body>
+</html>
